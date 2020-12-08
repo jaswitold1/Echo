@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "App that You can rewind Your last hour of life with.",
+    "githubUrl": "https://github.com/jaswitold1/Echo"
   }
 }
