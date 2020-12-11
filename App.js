@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import Login from './app/screens/Login'
+import Master from './app/screens/Master'
 export default function App() {
   
      
@@ -10,7 +10,7 @@ export default function App() {
   return (
    <View style={styles.container}>
      
-      <Login/>
+      <Master/>
    </View>
   );
 }
