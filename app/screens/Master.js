@@ -34,21 +34,21 @@ export default function Master() {
           toggle? <Text/> : <SafeAreaView style={styles.lowerMenuContainer}>
           
               <TouchableOpacity style={styles.lowerMenuEl}>
-                  <Text>1</Text>
+                  <Text style={styles.iconColor}>Calendar</Text>
                   </TouchableOpacity> 
               
           
             
                
                <TouchableOpacity style={styles.lowerMenuEl}>
-                  <Text>2</Text>
+                  <Text style={styles.iconColor}>List</Text>
                   </TouchableOpacity> 
               
           
           
            
                 <TouchableOpacity style={styles.lowerMenuEl}>
-                  <Text>3</Text>
+                  <Text style={styles.iconColor}>Recording</Text>
                   </TouchableOpacity> 
               
               
@@ -90,6 +90,7 @@ export const styles = StyleSheet.create({
         borderTopWidth:1,
         borderColor:'white',
        flexDirection:'row',
+       
        
        alignItems:'center'
 
