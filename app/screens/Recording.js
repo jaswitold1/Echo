@@ -1,15 +1,19 @@
 import React from 'react'
 import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
+
+
 export default function Recording() {
+  
+
     return (
         <View style={stylesRec.container}>
             <Text style={stylesRec.icons}>How long You want to record?</Text>
             <View style={stylesRec.iconContainer} >
-                <TouchableOpacity style={stylesRec.iconRec}>
+                <TouchableOpacity  style={stylesRec.iconRec}>
                     <View style={stylesRec.dotRec}></View>
                 </TouchableOpacity>
-                <TouchableOpacity style={stylesRec.iconRec}><Text style={stylesRec.icons, stylesRec.iconDown}>
+                <TouchableOpacity  style={stylesRec.iconRec}><Text style={stylesRec.icons, stylesRec.iconDown}>
                     ↓</Text></TouchableOpacity>
                 
             </View>
