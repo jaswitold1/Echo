@@ -9,6 +9,7 @@ export default function Recording() {
     return (
         <View style={stylesRec.container}>
             <Text style={stylesRec.icons}>How long You want to record?</Text>
+            <View></View>
             <View style={stylesRec.iconContainer} >
                 <TouchableOpacity  style={stylesRec.iconRec}>
                     <View style={stylesRec.dotRec}></View>
