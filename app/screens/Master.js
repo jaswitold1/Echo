@@ -6,7 +6,10 @@ import {
   ImageBackground,
   SafeAreaView,
   StatusBar,
+  Button,
+  TouchableHighlight,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import Login from "./Login";
 import Recording from "./Recording";
@@ -84,10 +87,10 @@ export const styles = StyleSheet.create({
   lowerMenuContainer: {
     width: "100%",
     height: 80,
+    borderTopWidth: 1,
+    borderColor: "white",
+    flexDirection: "row",
 
-    flexDirection: "row-reverse",
-    backgroundColor: "black",
-    opacity: 0.6,
     alignItems: "center",
   },
   lowerMenuEl: {
