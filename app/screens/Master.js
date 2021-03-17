@@ -1,97 +1,110 @@
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  SafeAreaView,
-  StatusBar,
-  TouchableOpacity,
-} from "react-native";
-import Login from "./Login";
-import Recording from "./Recording";
+import React,{useState} from 'react'
+import { StyleSheet, Text, View,ImageBackground,SafeAreaView,StatusBar, Button, TouchableHighlight, TouchableOpacity,TextInput } from 'react-native'
+import Login  from "./Login";
+import  Recording from "./Recording";
+
 
 export default function Master() {
-  const [toggle, setToggle] = useState("false");
-  const handleStart = () => {
-    setToggle((prev) => !prev);
-  };
-  return (
-    <ImageBackground
-      source={require("../assets/login.jpg")}
-      style={{ width: "100%", height: "100%" }}
-      resizeMode={"cover"}
-    >
-      <StatusBar barStyle={"light-content"} />
-      <View style={styles.container}>
-        <Text
-          style={{
-            color: "white",
-            fontSize: 150,
-            fontFamily: "Avenir",
-            fontWeight: "bold",
-          }}
-        >
-          Echo
-        </Text>
-      </View>
-      <View style={styles.container}>
-        {toggle ? <Login start={() => handleStart()} /> : <Recording />}
-      </View>
+    const [toggle,setToggle] = useState('false')
+    const handleStart = () => {
+        setToggle(prev=>!prev)
+    }
+    return (
+        <ImageBackground source={require('../assets/login.jpg')} style={{width:'100%',height:'100%'}} resizeMode={"cover"}>
+            <StatusBar  barStyle={'light-content'}/>
+            <View style={styles.container}>
+                <Text style={{color:'white',fontSize:150,fontFamily:'Avenir' ,fontWeight:'bold'}}>
+                    Echo 
+                </Text>
 
-      {toggle ? (
-        <Text />
-      ) : (
-        <SafeAreaView style={styles.lowerMenuContainer}>
-          <TouchableOpacity style={styles.lowerMenuEl}>
-            <Text style={styles.iconColor}>Calendar</Text>
-          </TouchableOpacity>
+            </View>
+       <View style={styles.container} >
+           
+       
+       {
+           toggle? <Login start={() => handleStart()} /> : <Recording/>
+       }
+       
+        
+        
+       </View>
 
-          <TouchableOpacity style={styles.lowerMenuEl}>
-            <Text style={styles.iconColor}>List</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.lowerMenuEl}>
-            <Text style={styles.iconColor}>Recording</Text>
-          </TouchableOpacity>
-        </SafeAreaView>
-      )}
-    </ImageBackground>
-  );
+       
+      {
+          toggle? <Text/> : <SafeAreaView style={styles.lowerMenuContainer}>
+          
+              <TouchableOpacity style={styles.lowerMenuEl}>
+                  <Text style={styles.iconColor}>Calendar</Text>
+                  </TouchableOpacity> 
+              
+          
+            
+               
+               <TouchableOpacity style={styles.lowerMenuEl}>
+                  <Text style={styles.iconColor}>List</Text>
+                  </TouchableOpacity> 
+              
+          
+          
+           
+                <TouchableOpacity style={styles.lowerMenuEl}>
+                  <Text style={styles.iconColor}>Recording</Text>
+                  </TouchableOpacity> 
+              
+              
+          
+           
+       </SafeAreaView> 
+      }
+        </ImageBackground>
+    )
 }
 
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "flex-end",
-    marginBottom: 40,
-  },
-  iconColor: {
-    color: "white",
-  },
-  text: {
-    color: "white",
-    padding: 20,
-    paddingLeft: "35%",
-    paddingRight: "35%",
+    container: {
+            
+            flex:1,
+            alignItems:'center',
+            justifyContent: 'flex-end',
+            marginBottom:40
+            
 
-    marginBottom: 50,
-    borderWidth: 1,
-    borderColor: "white",
+    } ,
+    iconColor: {
+        color:'white'
+    },
+    text: {
+        color:'white',
+        padding:20 ,
+        paddingLeft: '35%',
+        paddingRight: '35%',
+
+        marginBottom:50,
+        borderWidth: 1,
+    borderColor: 'white',
     borderRadius: 6,
-  },
-  lowerMenuContainer: {
-    width: "100%",
-    height: 80,
+    },
+    lowerMenuContainer: {
+        width:'100%',
+        height:80,
+        borderTopWidth:1,
+        borderColor:'white',
+       flexDirection:'row',
+       
+       
+       alignItems:'center'
 
-    flexDirection: "row-reverse",
-    backgroundColor: "black",
-    opacity: 0.6,
-    alignItems: "center",
-  },
-  lowerMenuEl: {
-    flex: 1,
-    alignItems: "center",
-  },
-});
+        
+        
+    },
+    lowerMenuEl: {
+       
+       flex:1,
+       alignItems:'center',
+       
+
+
+       
+    }
+   
+})
