@@ -1,3 +1,5 @@
+Currently under development
+
 
 React Native application which records last hour of your life (or a different duration of Your preference). 
 It records short 1 minute audio files with expo AV library (when those files exceed an hour the last one is deleted when the new appears).
