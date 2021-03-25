@@ -18,8 +18,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-        "infoPlist": {
-        
+      "infoPlist": {
         "UIBackgroundModes": [
           "audio"
         ]

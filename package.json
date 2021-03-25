@@ -11,6 +11,8 @@
     "@react-native-community/hooks": "^2.6.0",
     "buffer": "^6.0.3",
     "expo": "~39.0.2",
+    "expo-av": "~8.6.0",
+    "expo-file-system": "~9.2.0",
     "expo-status-bar": "~1.0.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -18,8 +20,7 @@
     "react-native-audio-record": "^0.2.2",
     "react-native-ffmpeg": "^0.5.1",
     "react-native-web": "~0.13.12",
-    "expo-av": "~8.6.0",
-    "expo-file-system": "~9.2.0"
+    "react-timeout": "^2.0.1"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

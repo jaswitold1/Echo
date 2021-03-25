@@ -1,43 +1,87 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
+import ReactTimeout from "react-timeout";
 
 export default function Recording() {
   ////////////// start recording
   const [recording, setRecording] = React.useState();
   const [lastUri, setLastUri] = useState("");
+  const [list, setList] = useState([]);
+  const [recInterval, setRecInterval] = useState({});
+
+  useEffect(() => {
+    let dir = FileSystem.cacheDirectory;
+    FileSystem.readDirectoryAsync(dir + "/AV/").then((resp) => setList(resp));
+    setList();
+    return () => {
+      setList([]);
+    };
+  }, []);
 
   const startRecording = async () => {
+    //////starting recording ////////////
     try {
       console.log("Requesting permissions..");
       await Audio.requestPermissionsAsync();
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: true,
         playsInSilentModeIOS: true,
+        staysActiveInBackground: true,
       });
       console.log("Starting recording..");
       const recording = new Audio.Recording();
       await recording.prepareToRecordAsync(
-        Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
+        Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY
       );
       await recording.startAsync();
       setRecording(recording);
       console.log("Recording started");
+      /////// stopping recording chunks
+      setRecInterval(
+        setInterval(() => {
+          setRecording(undefined);
+          console.log("Stopping recording..");
+          recording.stopAndUnloadAsync();
+          setLastUri(recording.getURI());
+          console.log("Recording stopped and stored at", lastUri);
+          ////set timeout top/start
+          setTimeout(async () => {
+            console.log("Requesting permissions..");
+            await Audio.requestPermissionsAsync();
+            await Audio.setAudioModeAsync({
+              allowsRecordingIOS: true,
+              playsInSilentModeIOS: true,
+              staysActiveInBackground: true,
+            });
+            console.log("Starting recording..");
+            const recording = new Audio.Recording();
+            await recording.prepareToRecordAsync(
+              Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY
+            );
+            await recording.startAsync();
+            setRecording(recording);
+            console.log("Recording started");
+          }, 3000);
+        }, 10000)
+      );
     } catch (err) {
       console.error("Failed to start recording", err);
     }
   };
-  ///////// stop recording
-  const stopRecording = async () => {
-    console.log("Stopping recording..");
-    setRecording(undefined);
-    await recording.stopAndUnloadAsync();
-    setLastUri(recording.getURI());
 
+  const stopRecording = () => {
+    clearInterval(recInterval);
+
+    setRecording(undefined);
+    console.log("Stopping recording..");
+    recording.stopAndUnloadAsync();
+    setLastUri(recording.getURI());
     console.log("Recording stopped and stored at", lastUri);
   };
-  ////////// playing sounds
+
+  ////////////////// playing sounds //////////
   const [sound, setSound] = React.useState();
 
   const playSound = async () => {
@@ -63,23 +107,22 @@ export default function Recording() {
       : undefined;
   }, [sound]);
   /////////// console log zawartosc folderu
-  const [list, setList] = useState([]);
+
   const klik = () => {
-    let dir = FileSystem.cacheDirectory;
-    FileSystem.readDirectoryAsync(dir + "/AV/").then((resp) => setList(resp));
+    FileSystem.deleteAsync(FileSystem.cacheDirectory + "/AV/");
   };
 
   return (
     <View style={stylesRec.container}>
-      <Text style={stylesRec.icons}>How long You want to record?</Text>
+      <Text style={stylesRec.icons}>How long do You want to record?</Text>
 
       <View style={stylesRec.iconContainer}>
         <TouchableOpacity style={stylesRec.iconRec}>
-          <View onTouchEnd={startRecording} style={stylesRec.dotRec}></View>
+          <View onTouchStart={startRecording} style={stylesRec.dotRec}></View>
         </TouchableOpacity>
         <TouchableOpacity style={stylesRec.iconRec}>
           <Text
-            onTouchEnd={stopRecording}
+            onPress={stopRecording}
             style={(stylesRec.icons, stylesRec.iconDown)}
           >
             stop
@@ -87,28 +130,28 @@ export default function Recording() {
         </TouchableOpacity>
         <TouchableOpacity style={stylesRec.iconRec}>
           <Text
-            onTouchEnd={playSound}
+            onPress={playSound}
             style={(stylesRec.icons, stylesRec.iconDown)}
           >
             play
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={stylesRec.iconRec}>
-          <Text onTouchEnd={klik} style={(stylesRec.icons, stylesRec.iconDown)}>
-            list
+          <Text onPress={klik} style={(stylesRec.icons, stylesRec.iconDown)}>
+            delete rec
           </Text>
         </TouchableOpacity>
       </View>
       {list ? (
         list.map((el, i) => {
           return (
-            <Text style={stylesRec.text} key={i}>
-              {el}
-            </Text>
+            <View key={i}>
+              <Text style={stylesRec.text}>{el}</Text>
+            </View>
           );
         })
       ) : (
-        <Text>Brak</Text>
+        <Text style={stylesRec.text}>No recordings</Text>
       )}
     </View>
   );
