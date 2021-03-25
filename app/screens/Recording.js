@@ -9,6 +9,7 @@ export default function Recording() {
   const [recording, setRecording] = React.useState();
   const [lastUri, setLastUri] = useState("");
   const [list, setList] = useState([]);
+  const [recInterval, setRecInterval] = useState({});
 
   useEffect(() => {
     let dir = FileSystem.cacheDirectory;
@@ -37,23 +38,45 @@ export default function Recording() {
       await recording.startAsync();
       setRecording(recording);
       console.log("Recording started");
-      //////////// stopping recording chunk after n miliseconds ///
-      setTimeout(async () => {
-        setRecording(undefined);
-        console.log("Stopping recording..");
-        await recording.stopAndUnloadAsync();
-        setLastUri(recording.getURI());
-        console.log("Recording stopped and stored at", lastUri);
-      }, 5000);
+      /////// stopping recording chunks
+      setRecInterval(
+        setInterval(() => {
+          setRecording(undefined);
+          console.log("Stopping recording..");
+          recording.stopAndUnloadAsync();
+          setLastUri(recording.getURI());
+          console.log("Recording stopped and stored at", lastUri);
+          ////set timeout top/start
+          setTimeout(async () => {
+            console.log("Requesting permissions..");
+            await Audio.requestPermissionsAsync();
+            await Audio.setAudioModeAsync({
+              allowsRecordingIOS: true,
+              playsInSilentModeIOS: true,
+              staysActiveInBackground: true,
+            });
+            console.log("Starting recording..");
+            const recording = new Audio.Recording();
+            await recording.prepareToRecordAsync(
+              Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY
+            );
+            await recording.startAsync();
+            setRecording(recording);
+            console.log("Recording started");
+          }, 3000);
+        }, 10000)
+      );
     } catch (err) {
       console.error("Failed to start recording", err);
     }
   };
-  /////// stopping recording on click
-  const stopRecording = async () => {
+
+  const stopRecording = () => {
+    clearInterval(recInterval);
+
     setRecording(undefined);
     console.log("Stopping recording..");
-    await recording.stopAndUnloadAsync();
+    recording.stopAndUnloadAsync();
     setLastUri(recording.getURI());
     console.log("Recording stopped and stored at", lastUri);
   };
@@ -86,7 +109,7 @@ export default function Recording() {
   /////////// console log zawartosc folderu
 
   const klik = () => {
-    FileSystem.deleteAsync(dir + "/AV/");
+    FileSystem.deleteAsync(FileSystem.cacheDirectory + "/AV/");
   };
 
   return (
